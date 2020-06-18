@@ -28,15 +28,16 @@ function setup() {
   let canvas = createCanvas(640, 480);
   canvas.parent("canvas-holder");
   background(0);
-
 }
 
 let angle = 0;
 function draw() {
+  background(Math.abs(255 * Math.cos(angle)));
+
   translate(width / 2, height / 2);
   rotate(angle);
 
-  angle += 0.004;
+  angle += 0.006;
 
   noFill();
   stroke(Math.abs(255 * Math.sin(angle)));
@@ -52,5 +53,11 @@ const inputRadio = document.querySelector(".input-radio");
 const inpuIterations = document.querySelector(".input-iterations");
 
 inputVertex.addEventListener("change", (event) => (sides = inputVertex.value));
-inputRadio.addEventListener("change", (event) => (radio = inputRadio.value * 10));
-inpuIterations.addEventListener("change",(event) => (interations = inpuIterations.value));
+inputRadio.addEventListener(
+  "change",
+  (event) => (radio = inputRadio.value * 10)
+);
+inpuIterations.addEventListener(
+  "change",
+  (event) => (interations = inpuIterations.value)
+);
