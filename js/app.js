@@ -27,14 +27,20 @@ function drawFractral(center, vertexCount, radius, reductor, iteration) {
 function setup() {
   let canvas = createCanvas(640, 480);
   canvas.parent("canvas-holder");
-}
-
-function draw() {
   background(0);
 
+}
+
+let angle = 0;
+function draw() {
+  translate(width / 2, height / 2);
+  rotate(angle);
+
+  angle += 0.004;
+
   noFill();
-  stroke(255);
-  drawFractral({ x: width / 2, y: height / 2 }, sides, radio, 0.75, interations);
+  stroke(Math.abs(255 * Math.sin(angle)));
+  drawFractral({ x: 0, y: 0 }, sides, radio, 0.75, interations);
 }
 
 let sides = 5;
