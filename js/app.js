@@ -4,17 +4,18 @@ function fractalTree(start, len, branches, arc, baseAngle, step) {
   const angleStep = arc / branches;
   const halfArc = arc / 2;
 
-  let angle = baseAngle;
+  let angle = baseAngle - halfArc;
 
   for (let i = 0; i <= branches; i++) {
     const end = {
-      x: start.x + Math.cos(angleStep) * len,
-      y: start.y + Math.sin(halfArc) * len,
+      x: start.x + Math.cos(angle) * len,
+      y: start.y + Math.sin(angle) * len,
     };
 
     line(start.x, start.y, end.x, end.y);
 
-    angle = angle+1;
+    fractalTree(end, len * 0.8, branches, arc, angle, step - 1);
+    angle += angleStep;
   }
 }
 
@@ -23,30 +24,34 @@ function setup() {
   canvas.parent("canvas-holder");
 }
 
+let tick = 0;
+
 function draw() {
+  let arc = isCheck ? (PI / 2) * Math.sin(tick) : (PI / 2);
+
+
   background(0);
-  translate(width / 2, height / 2);
+  translate(width / 2, height - 100);
 
   noFill();
-  stroke(255, 123, 23);
-  fractalTree({ x: 0, y: 0 }, 100, 2, (PI), 1, 1);
+  stroke(55, 123, 23);
+
+  fractalTree({ x: 0, y: 0 }, 100, branches, arc, -(PI / 2), steps);
+  tick += 0.006;
 }
 
 //controles
-let sides = 5;
-let radio = 100;
-let interations = 2;
+let branches = 5;
+let steps = 4;
+let isCheck = false;
 
-const inputVertex = document.querySelector(".input-vertex");
-const inputRadio = document.querySelector(".input-radio");
-const inpuIterations = document.querySelector(".input-iterations");
+const inBranch = document.querySelector(".input-branches");
+const inSteps = document.querySelector(".input-steps");
+const inAnima = document.querySelector(".check-anima");
 
-inputVertex.addEventListener("change", (event) => (sides = inputVertex.value));
-inputRadio.addEventListener(
-  "change",
-  (event) => (radio = inputRadio.value * 10)
-);
-inpuIterations.addEventListener(
-  "change",
-  (event) => (interations = inpuIterations.value)
-);
+inBranch.addEventListener("change", (event) => (branches = inBranch.value));
+inSteps.addEventListener("change", (event) => (steps = inSteps.value));
+inAnima.addEventListener("change", (event) => {
+  isCheck = inAnima.checked;
+  console.log('isCheck', isCheck)
+});
